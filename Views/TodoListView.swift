@@ -17,11 +17,13 @@ struct TodoListView: View {
     // Our list of items to complete
     @State private var items: [TodoItem] = []
     
+    // The search bar
+    @State private var searchText = ""
+    
     // MARK: Computed properties
     var body: some View {
         NavigationStack {
             VStack {
-                
                 HStack {
                     
                     TextField("Enter a to-do item", text: $newItemDetails)
@@ -47,7 +49,8 @@ struct TodoListView: View {
                     
                 } else {
                     
-                    List(items) { currentItem in
+                    List {
+                        ForEach(items) { currentItem in
                         Label {
                             Text(currentItem.details)
                         } icon: {
@@ -56,12 +59,16 @@ struct TodoListView: View {
                                     toggle(item: currentItem)
                                 }
                         }
+                        }
+                        .onDelete(perform: removeRows)
                     }
+
                     
                 }
             }
             .navigationTitle("Tasks")
         }
+
 
     }
     
@@ -80,8 +87,12 @@ struct TodoListView: View {
             item.completedOn = Date()
             item.isCompleted = true
         }
-        
     }
+    
+    func removeRows(at offsets: IndexSet) {
+        items.remove(atOffsets: offsets)
+    }
+    
 }
 
 #Preview {
