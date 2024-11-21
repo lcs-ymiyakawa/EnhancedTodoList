@@ -50,7 +50,7 @@ struct TodoListView: View {
                 } else {
                     
                     List {
-                        ForEach(items) { currentItem in
+                        ForEach(filteredItems) { currentItem in
                         Label {
                             Text(currentItem.details)
                         } icon: {
@@ -68,8 +68,7 @@ struct TodoListView: View {
             }
             .navigationTitle("Tasks")
         }
-
-
+        .searchable(text: $searchText, prompt: "Look for something")
     }
     
     // MARK: Functions
@@ -93,6 +92,15 @@ struct TodoListView: View {
         items.remove(atOffsets: offsets)
     }
     
+    var filteredItems: [TodoItem] {
+        if searchText.isEmpty {
+            return items
+        } else {
+            return items.filter { item in
+                item.details.lowercased().contains(searchText.lowercased())
+            }
+        }
+    }
 }
 
 #Preview {
