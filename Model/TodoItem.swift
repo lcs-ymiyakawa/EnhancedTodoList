@@ -5,13 +5,12 @@
 //  Created by Yoshi Miyakawa on 2024/11/12.
 //
 
-import Observation
 import Foundation
+import SwiftData
  
-@Observable
-class TodoItem: Identifiable {
+@Model
+class TodoItem {
     
-    let id = UUID()
     var details: String
     let createdOn: Date
     var isCompleted: Bool
